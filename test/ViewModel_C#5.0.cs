@@ -26,7 +26,8 @@ namespace WpfTemp
 		public int Prop2
 		{
 			get { return prop2; }
-			set { prop2 = value; OnPropertyChanged(); }	// OnPropertyChanged method can automatically get the property name.
+			set { prop2 = value; OnPropertyChanged(); }
+			// OnPropertyChanged method can automatically get the property name.
 		}
 
 		// Simple
@@ -34,7 +35,8 @@ namespace WpfTemp
 		public string Prop3
 		{
 			get { return prop3; }
-			set { Set(ref prop3, value); }	// Set method can automatically get the property name, too.
+			set { Set(ref prop3, value); }
+			// Set method can automatically get the property name, too.
 		}
 
 		// Most simple way (no private member anymore).
