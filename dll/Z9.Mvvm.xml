@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Z9.Mvvm</name>
+    </assembly>
+    <members>
+        <member name="T:Z9.Mvvm.Command.CommandBase">
+            <summary>
+            Mvvm command tool base class
+            </summary>
+        </member>
+        <member name="E:Z9.Mvvm.Command.CommandBase.CanExecuteChanged">
+            <summary>
+            Occurs when changes occur that affect whether the command should execute
+            </summary>
+        </member>
+        <member name="M:Z9.Mvvm.Command.CommandBase.CanExecute(System.Object)">
+            <summary>
+            Define a method that determines whether the command can excute
+            </summary>
+            <param name="parameter">Para</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:Z9.Mvvm.Command.CommandBase.Execute(System.Object)">
+            <summary>
+            Define a method to be called when command is Triggered
+            </summary>
+            <param name="parameter">Para</param>
+        </member>
+        <member name="M:Z9.Mvvm.Command.CommandBase.OnCanExecuteChanged">
+            <summary>
+            Manually enumerate commands whether they can be triggered, this method will be executed on UI thread automatically
+            </summary>
+        </member>
+        <member name="T:Z9.Mvvm.Command.RelayCommand">
+            <summary>
+            Mvvm command tool
+            </summary>
+        </member>
+        <member name="M:Z9.Mvvm.Command.RelayCommand.#ctor(System.Action,System.Func{System.Boolean})">
+            <summary>
+            Create command instance
+            </summary>
+            <param name="excute">The execution logic</param>
+            <param name="canExcute">The execution status logic</param>
+        </member>
+        <member name="M:Z9.Mvvm.Command.RelayCommand.CanExecute(System.Object)">
+            <summary>
+            Define a method that determines whether the command can execute
+            </summary>
+            <param name="parameter">This parameter will be always ignored</param>
+            <returns>true</returns>
+        </member>
+        <member name="M:Z9.Mvvm.Command.RelayCommand.Execute(System.Object)">
+            <summary>
+            Define a method to be called when command is invoked
+            </summary>
+            <param name="parameter">This parameter will be always triggered</param>
+        </member>
+        <member name="T:Z9.Mvvm.Command.RelayCommand`1">
+            <summary>
+            Mvvm command tool with parameter
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Z9.Mvvm.Command.RelayCommand`1.#ctor(System.Action{`0},System.Func{`0,System.Boolean})">
+            <summary>
+            Create command instance
+            </summary>
+            <param name="excute">The execution logic</param>
+            <param name="canExcute">The execution status logic</param>
+        </member>
+        <member name="M:Z9.Mvvm.Command.RelayCommand`1.CanExecute(System.Object)">
+            <summary>
+            Define a method that determines whether the command can execute
+            </summary>
+            <param name="parameter">Para</param>
+            <returns>Whether executable</returns>
+        </member>
+        <member name="M:Z9.Mvvm.Command.RelayCommand`1.Execute(System.Object)">
+            <summary>
+            Define a method to be called when command is triggered
+            </summary>
+            <param name="parameter">Para</param>
+        </member>
+        <member name="T:Z9.Mvvm.NotificationObject">
+            <summary>
+            ViewModel base class
+            </summary>
+        </member>
+        <member name="E:Z9.Mvvm.NotificationObject.PropertyChanged">
+            <summary>
+            Occurs when property value changed
+            </summary>
+        </member>
+        <member name="P:Z9.Mvvm.NotificationObject.IsInDesignMode">
+            <summary>
+            Current code mode (design mode | run-time mode)
+            </summary>
+        </member>
+        <member name="M:Z9.Mvvm.NotificationObject.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Z9.Mvvm.NotificationObject.OnPropertyChanged(System.String)">
+            <summary>
+            Notify property changed
+            </summary>
+            <param name="propertyName">Property name</param>
+        </member>
+        <member name="M:Z9.Mvvm.NotificationObject.Set``1(``0@,``0,System.String)">
+            <summary>
+            Set property value
+            </summary>
+            <typeparam name="T">Property type</typeparam>
+            <param name="oldValue">Old value</param>
+            <param name="newValue">New value</param>
+            <param name="propertyName">Property name</param>
+            <returns>Whether success</returns>
+        </member>
+        <member name="M:Z9.Mvvm.NotificationObject.GetProperty``1(System.String)">
+            <summary>
+            A method for property getter
+            </summary>
+            <typeparam name="T">Property type</typeparam>
+            <param name="propertyName">Property name</param>
+            <returns>Property value</returns>
+            <exception cref="T:System.InvalidOperationException"/>
+        </member>
+        <member name="M:Z9.Mvvm.NotificationObject.SetProperty(System.Object,System.String)">
+            <summary>
+            A method for property setter
+            </summary>
+            <param name="propertyValue">Property value</param>
+            <param name="propertyName">Property name</param>
+            <exception cref="T:System.InvalidOperationException"/>
+        </member>
+        <member name="M:Z9.Mvvm.NotificationObject.OnInitializeInDesignMode">
+            <summary>
+            Xaml designer's code
+            </summary>
+        </member>
+        <member name="M:Z9.Mvvm.NotificationObject.OnInitializeInRuntime">
+            <summary>
+            User's code
+            </summary>
+        </member>
+    </members>
+</doc>
