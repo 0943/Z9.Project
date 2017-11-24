@@ -1,6 +1,6 @@
 /*
-* This demo's code syntax use for C# 6.0, can be use in Visual Studio 2015 or 2017.
-*/
+ * This demo's code syntax use for C# 6.0, can be use in Visual Studio 2015 or 2017.
+ */
 
 using System.Windows;
 using System.Windows.Input;
