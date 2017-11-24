@@ -1,2 +1,2 @@
 # Z9.Mvvm
-A simple MVVM framework help to simplify your ViewModel code for WPF, use the latest C# syntax (now is C# 7.1)
+Inherited from class NotificationObject, your ViewModel's properties and commands can be initialized very simple. Detail in dir test.
