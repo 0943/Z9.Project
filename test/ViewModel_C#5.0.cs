@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This demo's code syntax use for C# 5.0, can be use in most Visual Studio
  */
 
