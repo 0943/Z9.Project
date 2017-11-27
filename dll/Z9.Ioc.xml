@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Z9.Ioc</name>
+    </assembly>
+    <members>
+        <member name="T:Z9.Ioc.SimpleIoc">
+            <summary>
+            Simple dynamic singleton helper
+            </summary>
+        </member>
+        <member name="P:Z9.Ioc.SimpleIoc.Default">
+            <summary>
+            Ioc Instance
+            </summary>
+        </member>
+        <member name="M:Z9.Ioc.SimpleIoc.Register``1">
+            <summary>
+            Register type. this method indicate instance is dynamic singleton and will be finalized when there's no reference
+            </summary>
+            <typeparam name="TInstance">Class type</typeparam>
+        </member>
+        <member name="M:Z9.Ioc.SimpleIoc.GetInstance``1">
+            <summary>
+            Get instance with target type (dynamic singleton using WeakReference)
+            </summary>
+            <typeparam name="TInstance">Instance type</typeparam>
+            <returns>Instance</returns>
+            <exception cref="T:System.InvalidOperationException"/>
+            <exception cref="T:System.Exception"/>
+        </member>
+    </members>
+</doc>
