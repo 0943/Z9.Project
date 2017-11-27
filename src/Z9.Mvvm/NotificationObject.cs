@@ -39,7 +39,7 @@ namespace Z9.Mvvm
 		/// Notify property changed
 		/// </summary>
 		/// <param name="propertyName">Property name</param>
-		public void OnPropertyChanged([CallerMemberName]string propertyName = default) => Application.Current.Dispatcher.Invoke(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)), DispatcherPriority.Send);
+		public void OnPropertyChanged([CallerMemberName]string propertyName = default) => Application.Current?.Dispatcher.Invoke(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)), DispatcherPriority.Send);
 
 		/// <summary>
 		/// Set property value
