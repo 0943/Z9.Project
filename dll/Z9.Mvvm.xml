@@ -83,6 +83,76 @@
             </summary>
             <param name="parameter">Para</param>
         </member>
+        <member name="T:Z9.Mvvm.Messaging.MessageWithCallBack">
+            <summary>
+            Inner defined message type with callback
+            </summary>
+        </member>
+        <member name="P:Z9.Mvvm.Messaging.MessageWithCallBack.Message">
+            <summary>
+            Message taking with
+            </summary>
+        </member>
+        <member name="M:Z9.Mvvm.Messaging.MessageWithCallBack.#ctor(System.String,System.Action)">
+            <summary>
+            Create MessageWithCallBack instance
+            </summary>
+            <param name="message">Message</param>
+            <param name="act">Delegate</param>
+        </member>
+        <member name="M:Z9.Mvvm.Messaging.MessageWithCallBack.Execute">
+            <summary>
+            Execute the delegate
+            </summary>
+        </member>
+        <member name="T:Z9.Mvvm.Messaging.Messenger">
+            <summary>
+            A tool for broadcasting message
+            </summary>
+        </member>
+        <member name="P:Z9.Mvvm.Messaging.Messenger.Default">
+            <summary>
+            Messenger instance
+            </summary>
+        </member>
+        <member name="M:Z9.Mvvm.Messaging.Messenger.Send``1(``0)">
+            <summary>
+            Send message
+            </summary>
+            <typeparam name="T">Message type</typeparam>
+            <param name="msg">Message</param>
+        </member>
+        <member name="M:Z9.Mvvm.Messaging.Messenger.Send``1(``0,System.Object)">
+            <summary>
+            Send message
+            </summary>
+            <typeparam name="T">Message type</typeparam>
+            <param name="msg">Message</param>
+            <param name="token">Message token</param>
+        </member>
+        <member name="M:Z9.Mvvm.Messaging.Messenger.Register``1(System.Object,System.Action{``0})">
+            <summary>
+            Register the message
+            </summary>
+            <typeparam name="T">Message type</typeparam>
+            <param name="reciepient">Message receiver</param>
+            <param name="opt">Delegate</param>
+        </member>
+        <member name="M:Z9.Mvvm.Messaging.Messenger.Register``1(System.Object,System.Object,System.Action{``0})">
+            <summary>
+            Register the message with token
+            </summary>
+            <typeparam name="T">Message type</typeparam>
+            <param name="reciepient">Message receiver</param>
+            <param name="token">Message token</param>
+            <param name="opt">Delegate</param>
+        </member>
+        <member name="M:Z9.Mvvm.Messaging.Messenger.Unregister(System.Object)">
+            <summary>
+            Unregister all message for target receiver
+            </summary>
+            <param name="reciepient">receiver</param>
+        </member>
         <member name="T:Z9.Mvvm.NotificationObject">
             <summary>
             ViewModel base class

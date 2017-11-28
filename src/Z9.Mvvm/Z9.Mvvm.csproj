@@ -46,6 +46,8 @@
     <Compile Include="Command\CommandBase.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Command\RelayCommandGeneric.cs" />
+    <Compile Include="Messaging\MessageWithCallBack.cs" />
+    <Compile Include="Messaging\Messenger.cs" />
     <Compile Include="NotificationObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
