@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Z9.Mvvm.Messaging
 {
@@ -15,7 +16,18 @@ namespace Z9.Mvvm.Messaging
 		/// <summary>
 		/// Messenger instance
 		/// </summary>
-		public static Messenger Default => _default ?? (_default = new Messenger());
+		public static Messenger Default
+		{
+			get
+			{
+				if(_default == null)
+				{
+					var ins = new Messenger();
+					Interlocked.CompareExchange(ref _default, ins, null);
+				}
+				return _default;
+			}
+		}
 
 		Dictionary<Type, List<Tuple<Delegate, object>>> actList = new Dictionary<Type, List<Tuple<Delegate, object>>>();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Z9.Ioc
 {
@@ -12,7 +13,19 @@ namespace Z9.Ioc
 		/// <summary>
 		/// Ioc Instance
 		/// </summary>
-		public static SimpleIoc Default => _default ?? (_default = new SimpleIoc());
+		public static SimpleIoc Default
+		{
+			get
+			{
+				if (_default == null)
+				{
+					var ins = new SimpleIoc();
+					Interlocked.CompareExchange(ref _default, ins, null);
+				}
+				return _default;
+			}
+		}
+
 
 		Dictionary<Type, WeakReference> singletonList = new Dictionary<Type, WeakReference>();
 
