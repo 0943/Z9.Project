@@ -5,7 +5,8 @@ using System.Threading;
 namespace Z9.Ioc
 {
 	/// <summary>
-	/// Simple dynamic singleton helper
+	/// Simple dynamic singleton helper, instances in this object is dynamic singleton and will be finalized when there's no reference
+	/// (not compeletly singleton, you can use key to break it)
 	/// </summary>
 	public sealed class SimpleIoc
 	{
@@ -26,45 +27,117 @@ namespace Z9.Ioc
 			}
 		}
 
-
 		Dictionary<Type, WeakReference> singletonList = new Dictionary<Type, WeakReference>();
+		Dictionary<string, Tuple<Type, WeakReference>> kInstanceList = new Dictionary<string, Tuple<Type, WeakReference>>();
 
 		/// <summary>
-		/// Register type. this method indicate instance is dynamic singleton and will be finalized when there's no reference
+		/// Register type
 		/// </summary>
-		/// <typeparam name="TInstance">Class type</typeparam>
+		/// <typeparam name="TInstance">class type</typeparam>
 		public void Register<TInstance>() where TInstance : class
 		{
-			var t = typeof(TInstance);
-			if (!singletonList.ContainsKey(t))
-				singletonList.Add(t, new WeakReference(null));
+			try
+			{
+				singletonList.Add(typeof(TInstance), new WeakReference(null));
+			}
+			catch { }
 		}
 
 		/// <summary>
-		/// Get instance with target type (dynamic singleton using WeakReference)
+		/// Register type with identifier
 		/// </summary>
-		/// <typeparam name="TInstance">Instance type</typeparam>
-		/// <returns>Instance</returns>
-		/// <exception cref="InvalidOperationException"/>
-		/// <exception cref="Exception"/>
+		/// <typeparam name="TInstance">class type</typeparam>
+		/// <param name="key">identifier</param>
+		/// <exception cref="ArgumentNullException">Key is null</exception>
+		public void Register<TInstance>(string key) where TInstance : class
+		{
+			try
+			{
+				kInstanceList.Add(key, Tuple.Create(typeof(TInstance), new WeakReference(null)));
+			}
+			catch (ArgumentNullException)
+			{
+				throw new ArgumentNullException("Key must not be null");
+			}
+			catch { }
+		}
+
+		/// <summary>
+		/// Get instance with target type
+		/// </summary>
+		/// <typeparam name="TInstance">instance type</typeparam>
+		/// <returns>instance</returns>
+		/// <exception cref="InvalidOperationException">Target type not be registered before</exception>
+		/// <exception cref="MissingMethodException">Target type don't have none parameter constructor</exception>
 		public TInstance GetInstance<TInstance>() where TInstance : class
 		{
-			var t = typeof(TInstance);
-			if (!singletonList.ContainsKey(t))
-				throw new InvalidOperationException($"Type {typeof(TInstance).Name} not exist");
+			WeakReference weakR;
+			try
+			{
+				weakR = singletonList[typeof(TInstance)];
+			}
+			catch
+			{
+				throw new InvalidOperationException($"Type \"{typeof(TInstance).FullName}\" not exist");
+			}
 
-			var weakR = singletonList[t];
 			if (weakR.IsAlive)
 				return (TInstance)weakR.Target;
 
 			TInstance ins = default;
 			try
 			{
-				ins = (TInstance)typeof(TInstance).Assembly.CreateInstance(typeof(TInstance).FullName);
+				ins = Activator.CreateInstance<TInstance>();
 			}
-			catch (Exception ex)
+			catch(MissingMethodException ex)
 			{
-				throw new Exception("Create instance fail", ex);
+				throw new MissingMethodException($"Create \"{typeof(TInstance).FullName}\" fail", ex);
+			}
+
+			weakR.Target = ins;
+			return ins;
+		}
+
+		/// <summary>
+		/// Get instance with target type and key
+		/// </summary>
+		/// <typeparam name="TInstance">instance type</typeparam>
+		/// <param name="key">identifier</param>
+		/// <returns>instance</returns>
+		/// <exception cref="ArgumentException">Target key not be registered before or key is null</exception>
+		/// <exception cref="InvalidOperationException">Target type isn't the same with registered type</exception>
+		/// <exception cref="MissingMethodException">Target type don't have none parameter constructor</exception>
+		public TInstance GetInstance<TInstance>(string key) where TInstance : class
+		{
+			Tuple<Type, WeakReference> kInstance;
+			try
+			{
+				kInstance = kInstanceList[key];
+			}
+			catch
+			{
+				throw new ArgumentException($"Key is null or there's no \"{key}\" yet");
+			}
+
+			var weakR = kInstance.Item2;
+			try
+			{
+				if (weakR.IsAlive)
+					return (TInstance)weakR.Target;
+			}
+			catch
+			{
+				throw new InvalidOperationException("Target type isn't the same with registered type");
+			}
+
+			TInstance ins = default;
+			try
+			{
+				ins = Activator.CreateInstance<TInstance>();
+			}
+			catch(MissingMethodException ex)
+			{
+				throw new MissingMethodException($"Create \"{typeof(TInstance).FullName}\" fail (\"{key}\")", ex);
 			}
 
 			weakR.Target = ins;
