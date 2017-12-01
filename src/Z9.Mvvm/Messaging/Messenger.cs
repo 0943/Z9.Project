@@ -20,7 +20,7 @@ namespace Z9.Mvvm.Messaging
 		{
 			get
 			{
-				if(_default == null)
+				if (_default == null)
 				{
 					var ins = new Messenger();
 					Interlocked.CompareExchange(ref _default, ins, null);
@@ -38,6 +38,9 @@ namespace Z9.Mvvm.Messaging
 		/// <param name="msg">Message</param>
 		public void Send<T>(T msg)
 		{
+			if (msg == null)
+				throw new ArgumentNullException("Message must not be null");
+
 			var acts = from act in actList
 					   from del in act.Value
 					   where del.Item2 == null && del.Item1.GetMethodInfo().GetParameters()[0].ParameterType == typeof(T)
@@ -55,11 +58,13 @@ namespace Z9.Mvvm.Messaging
 		public void Send<T>(T msg, object token)
 		{
 			if (token == null)
-				throw new InvalidOperationException("Message token must not be null");
+				throw new ArgumentNullException("Message token must not be null");
+			if (msg == null)
+				throw new ArgumentNullException("Message must not be null");
 
 			var acts = from act in actList
 					   from del in act.Value
-					   where del.Item2.Equals(token) && del.Item1.GetMethodInfo().GetParameters()[0].ParameterType == typeof(T)
+					   where del.Item2 != null && del.Item2.Equals(token) && del.Item1.GetMethodInfo().GetParameters()[0].ParameterType == typeof(T)
 					   select del.Item1;
 			foreach (var act in acts)
 				act?.DynamicInvoke(msg);
@@ -71,7 +76,12 @@ namespace Z9.Mvvm.Messaging
 		/// <typeparam name="T">Message type</typeparam>
 		/// <param name="reciepient">Message receiver</param>
 		/// <param name="opt">Delegate</param>
-		public void Register<T>(object reciepient, Action<T> opt) => Register(reciepient, opt, null);
+		/// <exception cref="ArgumentNullException">Reciepient is null</exception>
+		public void Register<T>(object reciepient, Action<T> opt)
+		{
+			try { Register(reciepient, opt, null); }
+			catch { throw; }
+		}
 
 		/// <summary>
 		/// Register the message with token
@@ -80,25 +90,39 @@ namespace Z9.Mvvm.Messaging
 		/// <param name="reciepient">Message receiver</param>
 		/// <param name="token">Message token</param>
 		/// <param name="opt">Delegate</param>
+		/// <exception cref="ArgumentNullException">Reciepient is null</exception>
+		/// <exception cref="ArgumentNullException">Token is null</exception>
 		public void Register<T>(object reciepient, object token, Action<T> opt)
 		{
 			if (token == null)
-				throw new InvalidOperationException("Message token must not be null");
-			Register(reciepient, opt, token);
+				throw new ArgumentNullException("Message token must not be null");
+			try { Register(reciepient, opt, token); }
+			catch { throw; }
 		}
 
 		/// <summary>
 		/// Unregister all message for target receiver
 		/// </summary>
 		/// <param name="reciepient">receiver</param>
+		/// <exception cref="ArgumentNullException">Reciepient is null</exception>
 		public void Unregister(object reciepient)
 		{
-			var t = reciepient.GetType();
-			actList.Remove(t);
+			try
+			{
+				var t = reciepient.GetType();
+				actList.Remove(t);
+			}
+			catch
+			{
+				throw new ArgumentNullException("Reciepient must not be null");
+			}
 		}
 
 		void Register<T>(object reciepient, Action<T> opt, object token)
 		{
+			if (reciepient == null)
+				throw new ArgumentNullException("Reciepient must not be null");
+
 			var t = reciepient.GetType();
 			if (!actList.ContainsKey(t))
 				actList.Add(t, new List<Tuple<Delegate, object>>());

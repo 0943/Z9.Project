@@ -46,6 +46,10 @@
     <Compile Include="Command\CommandBase.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Command\RelayCommandGeneric.cs" />
+    <Compile Include="Converter\Bool2Object.cs" />
+    <Compile Include="Converter\Bool2Visibility.cs" />
+    <Compile Include="Converter\BooleanNegation.cs" />
+    <Compile Include="Converter\Func2Object.cs" />
     <Compile Include="Messaging\MessageWithCallBack.cs" />
     <Compile Include="Messaging\Messenger.cs" />
     <Compile Include="NotificationObject.cs" />
@@ -57,7 +61,9 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
