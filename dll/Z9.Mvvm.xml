@@ -83,6 +83,153 @@
             </summary>
             <param name="parameter">Para</param>
         </member>
+        <member name="T:Z9.Mvvm.Converter.Bool2Object">
+            <summary>
+            Converts the input Boolean, nullable Boolean or DefaultBoolean value to a value of any type
+            </summary>
+        </member>
+        <member name="P:Z9.Mvvm.Converter.Bool2Object.TrueValue">
+            <summary>
+            true value
+            </summary>
+        </member>
+        <member name="P:Z9.Mvvm.Converter.Bool2Object.FalseValue">
+            <summary>
+            false value
+            </summary>
+        </member>
+        <member name="P:Z9.Mvvm.Converter.Bool2Object.NullValue">
+            <summary>
+            null value
+            </summary>
+        </member>
+        <member name="M:Z9.Mvvm.Converter.Bool2Object.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Convert from source value type to target type
+            </summary>
+            <param name="value">source value</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">parameter</param>
+            <param name="culture">culture info</param>
+            <returns>target value</returns>
+            /// <exception cref="T:System.InvalidCastException">Source value type is not bool or bool?</exception>
+        </member>
+        <member name="M:Z9.Mvvm.Converter.Bool2Object.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            This converter not allowed to convert back
+            </summary>
+            <param name="value">source value</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">parameter</param>
+            <param name="culture">culture info</param>
+            <returns>source value</returns>
+            <exception cref="T:System.NotImplementedException"/>
+        </member>
+        <member name="T:Z9.Mvvm.Converter.Bool2Visibility">
+            <summary>
+            An extended version of the standard converter that maps Boolean values to the values of the Visibility type and vice versa
+            </summary>
+        </member>
+        <member name="P:Z9.Mvvm.Converter.Bool2Visibility.UseHiddenInstead">
+            <summary>
+            Use Hidden rather than Collapsed
+            </summary>
+        </member>
+        <member name="P:Z9.Mvvm.Converter.Bool2Visibility.Inversed">
+            <summary>
+            Inverse the boolean value
+            </summary>
+        </member>
+        <member name="M:Z9.Mvvm.Converter.Bool2Visibility.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Convert from source value type to target type
+            </summary>
+            <param name="value">source value</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">parameter</param>
+            <param name="culture">culture info</param>
+            <returns>target value</returns>
+            <exception cref="T:System.InvalidCastException">Source value type is not bool</exception>
+        </member>
+        <member name="M:Z9.Mvvm.Converter.Bool2Visibility.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            This converter not allowed to convert back
+            </summary>
+            <param name="value">source value</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">parameter</param>
+            <param name="culture">culture info</param>
+            <returns>source value</returns>
+            <exception cref="T:System.NotImplementedException"/>
+        </member>
+        <member name="T:Z9.Mvvm.Converter.BooleanNegation">
+            <summary>
+            Inverse the bool value
+            </summary>
+        </member>
+        <member name="M:Z9.Mvvm.Converter.BooleanNegation.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Inverse the bool value
+            </summary>
+            <param name="value">source value</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">parameter</param>
+            <param name="culture">culture info</param>
+            <returns>target value</returns>
+            <exception cref="T:System.InvalidCastException">Source value type is not bool</exception>
+        </member>
+        <member name="M:Z9.Mvvm.Converter.BooleanNegation.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            This converter not allowed to convert back
+            </summary>
+            <param name="value">source value</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">parameter</param>
+            <param name="culture">culture info</param>
+            <returns>source value</returns>
+            <exception cref="T:System.NotImplementedException"/>
+        </member>
+        <member name="T:Z9.Mvvm.Converter.Func2Object">
+            <summary>
+            Use Func() to convert
+            </summary>
+        </member>
+        <member name="P:Z9.Mvvm.Converter.Func2Object.Function">
+            <summary>
+            Func() defination
+            </summary>
+        </member>
+        <member name="M:Z9.Mvvm.Converter.Func2Object.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Invoke the func
+            </summary>
+            <param name="value">source value</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">parameter</param>
+            <param name="culture">culture info</param>
+            <returns>target value</returns>
+        </member>
+        <member name="M:Z9.Mvvm.Converter.Func2Object.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            This converter not allowed to convert back
+            </summary>
+            <param name="value">source value</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">parameter</param>
+            <param name="culture">culture info</param>
+            <returns>source value</returns>
+        </member>
+        <member name="M:Z9.Mvvm.Converter.Func2Object.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Z9.Mvvm.Converter.Func2Object.#ctor(System.Func{System.Object,System.Object})">
+            <summary>
+            Construct with delegate
+            </summary>
+            <param name="func">Func</param>
+        </member>
         <member name="T:Z9.Mvvm.Messaging.MessageWithCallBack">
             <summary>
             Inner defined message type with callback
@@ -137,6 +284,7 @@
             <typeparam name="T">Message type</typeparam>
             <param name="reciepient">Message receiver</param>
             <param name="opt">Delegate</param>
+            <exception cref="T:System.ArgumentNullException">Reciepient is null</exception>
         </member>
         <member name="M:Z9.Mvvm.Messaging.Messenger.Register``1(System.Object,System.Object,System.Action{``0})">
             <summary>
@@ -146,12 +294,15 @@
             <param name="reciepient">Message receiver</param>
             <param name="token">Message token</param>
             <param name="opt">Delegate</param>
+            <exception cref="T:System.ArgumentNullException">Reciepient is null</exception>
+            <exception cref="T:System.ArgumentNullException">Token is null</exception>
         </member>
         <member name="M:Z9.Mvvm.Messaging.Messenger.Unregister(System.Object)">
             <summary>
             Unregister all message for target receiver
             </summary>
             <param name="reciepient">receiver</param>
+            <exception cref="T:System.ArgumentNullException">Reciepient is null</exception>
         </member>
         <member name="T:Z9.Mvvm.NotificationObject">
             <summary>
