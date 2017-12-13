@@ -32,6 +32,6 @@ namespace Z9.Mvvm.Command
 		/// Define a method to be called when command is invoked
 		/// </summary>
 		/// <param name="parameter">This parameter will be always triggered</param>
-		public override void Execute(object parameter) => ExcuteAction();
+		public override void Execute(object parameter) => ExcuteAction?.Invoke();
 	}
 }

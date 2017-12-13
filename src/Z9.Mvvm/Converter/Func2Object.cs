@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
-using System.Windows.Media.Imaging;
 
 namespace Z9.Mvvm.Converter
 {
 	/// <summary>
-	/// Use Func() to convert
+	/// Use delegate to create a converter, no more IValueConverter implement manually.
 	/// </summary>
 	public class Func2Object : IValueConverter
 	{

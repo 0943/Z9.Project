@@ -61,7 +61,7 @@
             <summary>
             Mvvm command tool with parameter
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="T">CommandParameter Type</typeparam>
         </member>
         <member name="M:Z9.Mvvm.Command.RelayCommand`1.#ctor(System.Action{`0},System.Func{`0,System.Boolean})">
             <summary>
@@ -112,7 +112,6 @@
             <param name="parameter">parameter</param>
             <param name="culture">culture info</param>
             <returns>target value</returns>
-            /// <exception cref="T:System.InvalidCastException">Source value type is not bool or bool?</exception>
         </member>
         <member name="M:Z9.Mvvm.Converter.Bool2Object.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
             <summary>
@@ -149,7 +148,6 @@
             <param name="parameter">parameter</param>
             <param name="culture">culture info</param>
             <returns>target value</returns>
-            <exception cref="T:System.InvalidCastException">Source value type is not bool</exception>
         </member>
         <member name="M:Z9.Mvvm.Converter.Bool2Visibility.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
             <summary>
@@ -176,7 +174,6 @@
             <param name="parameter">parameter</param>
             <param name="culture">culture info</param>
             <returns>target value</returns>
-            <exception cref="T:System.InvalidCastException">Source value type is not bool</exception>
         </member>
         <member name="M:Z9.Mvvm.Converter.BooleanNegation.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
             <summary>
@@ -191,7 +188,7 @@
         </member>
         <member name="T:Z9.Mvvm.Converter.Func2Object">
             <summary>
-            Use Func() to convert
+            Use delegate to create a converter, no more IValueConverter implement manually.
             </summary>
         </member>
         <member name="P:Z9.Mvvm.Converter.Func2Object.Function">
@@ -268,6 +265,7 @@
             </summary>
             <typeparam name="T">Message type</typeparam>
             <param name="msg">Message</param>
+            <exception cref="T:System.ArgumentNullException"/>
         </member>
         <member name="M:Z9.Mvvm.Messaging.Messenger.Send``1(``0,System.Object)">
             <summary>
@@ -276,6 +274,7 @@
             <typeparam name="T">Message type</typeparam>
             <param name="msg">Message</param>
             <param name="token">Message token</param>
+            <exception cref="T:System.ArgumentNullException"/>
         </member>
         <member name="M:Z9.Mvvm.Messaging.Messenger.Register``1(System.Object,System.Action{``0})">
             <summary>

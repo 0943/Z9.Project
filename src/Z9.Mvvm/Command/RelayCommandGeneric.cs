@@ -5,7 +5,7 @@ namespace Z9.Mvvm.Command
 	/// <summary>
 	/// Mvvm command tool with parameter
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="T">CommandParameter Type</typeparam>
 	public class RelayCommand<T> : CommandBase
 	{
 		Action<T> ExcuteAction { get; }
@@ -33,6 +33,6 @@ namespace Z9.Mvvm.Command
 		/// Define a method to be called when command is triggered
 		/// </summary>
 		/// <param name="parameter">Para</param>
-		public override void Execute(object parameter) => ExcuteAction((T)parameter);
+		public override void Execute(object parameter) => ExcuteAction?.Invoke((T)parameter);
 	}
 }

@@ -35,6 +35,6 @@ namespace Z9.Mvvm.Command
 		/// <summary>
 		/// Manually enumerate commands whether they can be triggered, this method will be executed on UI thread automatically
 		/// </summary>
-		public static void OnCanExecuteChanged() => Application.Current.Dispatcher.Invoke(() => CommandManager.InvalidateRequerySuggested(), DispatcherPriority.Send);
+		public static void OnCanExecuteChanged() => Application.Current?.Dispatcher.Invoke(() => CommandManager.InvalidateRequerySuggested(), DispatcherPriority.Send);
 	}
 }

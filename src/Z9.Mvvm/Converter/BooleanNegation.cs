@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 
 namespace Z9.Mvvm.Converter
@@ -17,7 +19,6 @@ namespace Z9.Mvvm.Converter
 		/// <param name="parameter">parameter</param>
 		/// <param name="culture">culture info</param>
 		/// <returns>target value</returns>
-		/// <exception cref="InvalidCastException">Source value type is not bool</exception>
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if(value is bool propSource)
@@ -28,7 +29,8 @@ namespace Z9.Mvvm.Converter
 					return true;
 			}
 
-			throw new InvalidCastException("Source value type must be bool");
+			Debug.WriteLine("Source value type must be bool");
+			return DependencyProperty.UnsetValue;
 		}
 
 		/// <summary>

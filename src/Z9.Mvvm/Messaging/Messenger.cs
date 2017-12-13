@@ -36,6 +36,7 @@ namespace Z9.Mvvm.Messaging
 		/// </summary>
 		/// <typeparam name="T">Message type</typeparam>
 		/// <param name="msg">Message</param>
+		/// <exception cref="ArgumentNullException"/>
 		public void Send<T>(T msg)
 		{
 			if (msg == null)
@@ -55,6 +56,7 @@ namespace Z9.Mvvm.Messaging
 		/// <typeparam name="T">Message type</typeparam>
 		/// <param name="msg">Message</param>
 		/// <param name="token">Message token</param>
+		/// <exception cref="ArgumentNullException"/>
 		public void Send<T>(T msg, object token)
 		{
 			if (token == null)
