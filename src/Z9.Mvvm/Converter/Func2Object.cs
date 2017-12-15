@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -10,9 +11,14 @@ namespace Z9.Mvvm.Converter
 	public class Func2Object : IValueConverter
 	{
 		/// <summary>
-		/// Func() defination
+		/// Convert Func defination
 		/// </summary>
 		public Func<object, object> Function { get; set; }
+
+		/// <summary>
+		/// ConvertBack Func defination
+		/// </summary>
+		public Func<object, object> FunctionBack { get; set; }
 
 		/// <summary>
 		/// Invoke the func
@@ -22,7 +28,18 @@ namespace Z9.Mvvm.Converter
 		/// <param name="parameter">parameter</param>
 		/// <param name="culture">culture info</param>
 		/// <returns>target value</returns>
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => Function?.Invoke(value);
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			try
+			{
+				return Function?.Invoke(value) ?? Binding.DoNothing;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Converter exception: Exception throwed from delegate method '{ex.Message}' Converter [{GetType()}], value type [{value?.GetType().FullName}]");
+				return Binding.DoNothing;
+			}
+		}
 
 		/// <summary>
 		/// This converter not allowed to convert back
@@ -32,7 +49,18 @@ namespace Z9.Mvvm.Converter
 		/// <param name="parameter">parameter</param>
 		/// <param name="culture">culture info</param>
 		/// <returns>source value</returns>
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			try
+			{
+				return FunctionBack?.Invoke(value) ?? Binding.DoNothing;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Converter exception: Exception throwed from delegate method (ConvertBack) '{ex.Message}' Converter [{GetType()}], value type [{value?.GetType().FullName}]");
+				return Binding.DoNothing;
+			}
+		}
 
 		/// <summary>
 		/// Default constructor
@@ -44,5 +72,16 @@ namespace Z9.Mvvm.Converter
 		/// </summary>
 		/// <param name="func">Func</param>
 		public Func2Object(Func<object, object> func) => Function = func;
+
+		/// <summary>
+		/// Construct with two delegate
+		/// </summary>
+		/// <param name="func"></param>
+		/// <param name="funcBack"></param>
+		public Func2Object(Func<object,object> func, Func<object,object> funcBack)
+		{
+			Function = func;
+			FunctionBack = funcBack;
+		}
 	}
 }

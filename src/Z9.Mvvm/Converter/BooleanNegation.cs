@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
 
 namespace Z9.Mvvm.Converter
@@ -29,8 +28,8 @@ namespace Z9.Mvvm.Converter
 					return true;
 			}
 
-			Debug.WriteLine("Source value type must be bool");
-			return DependencyProperty.UnsetValue;
+			Debug.WriteLine($"Converter exception: Source value type must be bool. Converter [{GetType()}], value type [{value?.GetType().FullName}]");
+			return Binding.DoNothing;
 		}
 
 		/// <summary>
@@ -41,7 +40,18 @@ namespace Z9.Mvvm.Converter
 		/// <param name="parameter">parameter</param>
 		/// <param name="culture">culture info</param>
 		/// <returns>source value</returns>
-		/// <exception cref="NotImplementedException"/>
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if(value is bool propTarget)
+			{
+				if (propTarget)
+					return false;
+				else
+					return true;
+			}
+
+			Debug.WriteLine($"Converter exception: Target value type must be bool. Converter [{GetType()}], value type [{value?.GetType().FullName}]");
+			return Binding.DoNothing;
+		}
 	}
 }

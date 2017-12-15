@@ -31,10 +31,10 @@ namespace Z9.Mvvm.Converter
 		/// <returns>target value</returns>
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (!bool.TryParse(value.ToString(), out bool propSource))
+			if (!bool.TryParse(value?.ToString(), out bool propSource))
 			{
-				Debug.WriteLine("Source value type must be Boolean");
-				return DependencyProperty.UnsetValue;
+				Debug.WriteLine($"Converter Exception: Source value type must be Boolean. Converter [{GetType()}], value type [{value?.GetType().FullName}]");
+				return Binding.DoNothing;
 			}
 			if (Inversed)
 			{
@@ -63,14 +63,34 @@ namespace Z9.Mvvm.Converter
 		}
 
 		/// <summary>
-		/// This converter not allowed to convert back
+		/// Convert from target value type to source type
 		/// </summary>
 		/// <param name="value">source value</param>
 		/// <param name="targetType">target type</param>
 		/// <param name="parameter">parameter</param>
 		/// <param name="culture">culture info</param>
 		/// <returns>source value</returns>
-		/// <exception cref="NotImplementedException"/>
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if(!(value is Visibility visible))
+			{
+				Debug.WriteLine($"Converter Exception: Target value type must be Visibility. Converter [{GetType()}], value type [{value?.GetType().FullName}]");
+				return Binding.DoNothing;
+			}
+			if (visible == Visibility.Visible)
+			{
+				if(Inversed)
+					return false;
+				else
+					return true;
+			}
+			else
+			{
+				if (Inversed)
+					return true;
+				else
+					return false;
+			}
+		}
 	}
 }
