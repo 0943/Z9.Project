@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Reflection;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading;
 
 namespace Z9.Mvvm.Messaging
@@ -29,34 +27,61 @@ namespace Z9.Mvvm.Messaging
 			}
 		}
 
-		Dictionary<Type, List<Tuple<Delegate, object>>> actList = new Dictionary<Type, List<Tuple<Delegate, object>>>();
+		Dictionary<Type, List<Tuple<Delegate, Type, object>>> actList = new Dictionary<Type, List<Tuple<Delegate, Type, object>>>();
 
 		/// <summary>
 		/// Send message
 		/// </summary>
 		/// <typeparam name="T">Message type</typeparam>
 		/// <param name="msg">Message</param>
-		/// <exception cref="ArgumentNullException"/>
+		/// <exception cref="MemberAccessException"/>
+		/// <exception cref="ArgumentException"/>
+		/// <exception cref="TargetInvocationException"/>
 		public void Send<T>(T msg)
 		{
 			if (msg == null)
 				throw new ArgumentNullException("Message must not be null");
 
-			var acts = from act in actList
-					   from del in act.Value
-					   where del.Item2 == null && del.Item1.GetMethodInfo().GetParameters()[0].ParameterType == typeof(T)
-					   select del.Item1;
-			foreach (var act in acts)
-				act?.DynamicInvoke(msg);
+			foreach (var act in actList)
+				foreach (var del in act.Value)
+					if (del.Item3 == null && del.Item2.Equals(typeof(T)))
+						try { del.Item1?.DynamicInvoke(msg); }
+						catch { throw; }
 		}
 
 		/// <summary>
-		/// Send message
+		/// Send message to target type. Indicate target type can get better performance.
+		/// </summary>
+		/// <typeparam name="TMessage">Message type</typeparam>
+		/// <typeparam name="TTarget">Target type</typeparam>
+		/// <param name="msg">Message</param>
+		public void Send<TMessage, TTarget>(TMessage msg) where TTarget : class
+		{
+			if (msg == null)
+				throw new ArgumentNullException("Message must not be null");
+
+			foreach (var recipient in actList)
+			{
+				if (recipient.Key.Equals(typeof(TTarget)))
+				{
+					foreach (var del in recipient.Value)
+						if (del.Item3 == null && del.Item2.Equals(typeof(TMessage)))
+							try { del.Item1?.DynamicInvoke(msg); }
+							catch { throw; }
+					break;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Send message with token
 		/// </summary>
 		/// <typeparam name="T">Message type</typeparam>
 		/// <param name="msg">Message</param>
 		/// <param name="token">Message token</param>
-		/// <exception cref="ArgumentNullException"/>
+		/// <exception cref="MemberAccessException"/>
+		/// <exception cref="ArgumentException"/>
+		/// <exception cref="TargetInvocationException"/>
 		public void Send<T>(T msg, object token)
 		{
 			if (token == null)
@@ -64,12 +89,38 @@ namespace Z9.Mvvm.Messaging
 			if (msg == null)
 				throw new ArgumentNullException("Message must not be null");
 
-			var acts = from act in actList
-					   from del in act.Value
-					   where del.Item2 != null && del.Item2.Equals(token) && del.Item1.GetMethodInfo().GetParameters()[0].ParameterType == typeof(T)
-					   select del.Item1;
-			foreach (var act in acts)
-				act?.DynamicInvoke(msg);
+			foreach (var act in actList)
+				foreach (var del in act.Value)
+					if (Equals(del.Item3, token) && del.Item2.Equals(typeof(T)))
+						try { del.Item1?.DynamicInvoke(msg); }
+						catch { throw; }
+		}
+
+		/// <summary>
+		/// Send message to target type with token. Indicate target type can get better performance.
+		/// </summary>
+		/// <typeparam name="TMessage">Message type</typeparam>
+		/// <typeparam name="TTarget">Target type</typeparam>
+		/// <param name="msg">Message</param>
+		/// <param name="token">Messaget token</param>
+		public void Send<TMessage, TTarget>(TMessage msg, object token)
+		{
+			if (token == null)
+				throw new ArgumentNullException("Message token must not be null");
+			if (msg == null)
+				throw new ArgumentNullException("Message must not be null");
+
+			foreach (var recipient in actList)
+			{
+				if (recipient.Key.Equals(typeof(TTarget)))
+				{
+					foreach (var del in recipient.Value)
+						if (Equals(del.Item3, token) && del.Item2.Equals(typeof(TMessage)))
+							try { del.Item1?.DynamicInvoke(msg); }
+							catch { throw; }
+					break;
+				}
+			}
 		}
 
 		/// <summary>
@@ -114,10 +165,7 @@ namespace Z9.Mvvm.Messaging
 				var t = reciepient.GetType();
 				actList.Remove(t);
 			}
-			catch
-			{
-				throw new ArgumentNullException("Reciepient must not be null");
-			}
+			catch { throw; }
 		}
 
 		void Register<T>(object reciepient, Action<T> opt, object token)
@@ -127,9 +175,9 @@ namespace Z9.Mvvm.Messaging
 
 			var t = reciepient.GetType();
 			if (!actList.ContainsKey(t))
-				actList.Add(t, new List<Tuple<Delegate, object>>());
+				actList.Add(t, new List<Tuple<Delegate, Type, object>>());
 
-			actList[t].Add(Tuple.Create<Delegate, object>(opt, token));
+			actList[t].Add(Tuple.Create<Delegate, Type, object>(opt, typeof(T), token));
 		}
 
 		Messenger() { }

@@ -122,7 +122,6 @@
             <param name="parameter">parameter</param>
             <param name="culture">culture info</param>
             <returns>source value</returns>
-            <exception cref="T:System.NotImplementedException"/>
         </member>
         <member name="T:Z9.Mvvm.Converter.Bool2Visibility">
             <summary>
@@ -151,14 +150,13 @@
         </member>
         <member name="M:Z9.Mvvm.Converter.Bool2Visibility.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
             <summary>
-            This converter not allowed to convert back
+            Convert from target value type to source type
             </summary>
             <param name="value">source value</param>
             <param name="targetType">target type</param>
             <param name="parameter">parameter</param>
             <param name="culture">culture info</param>
             <returns>source value</returns>
-            <exception cref="T:System.NotImplementedException"/>
         </member>
         <member name="T:Z9.Mvvm.Converter.BooleanNegation">
             <summary>
@@ -184,7 +182,6 @@
             <param name="parameter">parameter</param>
             <param name="culture">culture info</param>
             <returns>source value</returns>
-            <exception cref="T:System.NotImplementedException"/>
         </member>
         <member name="T:Z9.Mvvm.Converter.Func2Object">
             <summary>
@@ -193,7 +190,12 @@
         </member>
         <member name="P:Z9.Mvvm.Converter.Func2Object.Function">
             <summary>
-            Func() defination
+            Convert Func defination
+            </summary>
+        </member>
+        <member name="P:Z9.Mvvm.Converter.Func2Object.FunctionBack">
+            <summary>
+            ConvertBack Func defination
             </summary>
         </member>
         <member name="M:Z9.Mvvm.Converter.Func2Object.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
@@ -227,6 +229,13 @@
             </summary>
             <param name="func">Func</param>
         </member>
+        <member name="M:Z9.Mvvm.Converter.Func2Object.#ctor(System.Func{System.Object,System.Object},System.Func{System.Object,System.Object})">
+            <summary>
+            Construct with two delegate
+            </summary>
+            <param name="func"></param>
+            <param name="funcBack"></param>
+        </member>
         <member name="T:Z9.Mvvm.Messaging.MessageWithCallBack">
             <summary>
             Inner defined message type with callback
@@ -236,6 +245,12 @@
             <summary>
             Message taking with
             </summary>
+        </member>
+        <member name="M:Z9.Mvvm.Messaging.MessageWithCallBack.#ctor(System.Action)">
+            <summary>
+            Create MessageWithCallBack instance
+            </summary>
+            <param name="act">Delegate</param>
         </member>
         <member name="M:Z9.Mvvm.Messaging.MessageWithCallBack.#ctor(System.String,System.Action)">
             <summary>
@@ -265,16 +280,37 @@
             </summary>
             <typeparam name="T">Message type</typeparam>
             <param name="msg">Message</param>
-            <exception cref="T:System.ArgumentNullException"/>
+            <exception cref="T:System.MemberAccessException"/>
+            <exception cref="T:System.ArgumentException"/>
+            <exception cref="T:System.Reflection.TargetInvocationException"/>
+        </member>
+        <member name="M:Z9.Mvvm.Messaging.Messenger.Send``2(``0)">
+            <summary>
+            Send message to target type. Indicate target type can get better performance.
+            </summary>
+            <typeparam name="TMessage">Message type</typeparam>
+            <typeparam name="TTarget">Target type</typeparam>
+            <param name="msg">Message</param>
         </member>
         <member name="M:Z9.Mvvm.Messaging.Messenger.Send``1(``0,System.Object)">
             <summary>
-            Send message
+            Send message with token
             </summary>
             <typeparam name="T">Message type</typeparam>
             <param name="msg">Message</param>
             <param name="token">Message token</param>
-            <exception cref="T:System.ArgumentNullException"/>
+            <exception cref="T:System.MemberAccessException"/>
+            <exception cref="T:System.ArgumentException"/>
+            <exception cref="T:System.Reflection.TargetInvocationException"/>
+        </member>
+        <member name="M:Z9.Mvvm.Messaging.Messenger.Send``2(``0,System.Object)">
+            <summary>
+            Send message to target type with token. Indicate target type can get better performance.
+            </summary>
+            <typeparam name="TMessage">Message type</typeparam>
+            <typeparam name="TTarget">Target type</typeparam>
+            <param name="msg">Message</param>
+            <param name="token">Messaget token</param>
         </member>
         <member name="M:Z9.Mvvm.Messaging.Messenger.Register``1(System.Object,System.Action{``0})">
             <summary>
