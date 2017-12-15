@@ -17,6 +17,12 @@ namespace Z9.Mvvm.Messaging
 		/// <summary>
 		/// Create MessageWithCallBack instance
 		/// </summary>
+		/// <param name="act">Delegate</param>
+		public MessageWithCallBack(Action act) => action = act;
+
+		/// <summary>
+		/// Create MessageWithCallBack instance
+		/// </summary>
 		/// <param name="message">Message</param>
 		/// <param name="act">Delegate</param>
 		public MessageWithCallBack(string message, Action act)

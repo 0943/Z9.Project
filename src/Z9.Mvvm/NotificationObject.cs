@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Windows;
-using System.ComponentModel;
-using System.Windows.Threading;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace Z9.Mvvm
 {
