@@ -42,6 +42,11 @@ namespace Z9.Mvvm
 		public void OnPropertyChanged([CallerMemberName]string propertyName = default) => Application.Current?.Dispatcher.Invoke(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)), DispatcherPriority.Send);
 
 		/// <summary>
+		/// Notify all properties changed(beta)
+		/// </summary>
+		public void NotifyAll() => Application.Current?.Dispatcher.Invoke(() => PropertyChanged?.Invoke(this, null));
+
+		/// <summary>
 		/// Set property value
 		/// </summary>
 		/// <typeparam name="T">Property type</typeparam>
@@ -73,6 +78,24 @@ namespace Z9.Mvvm
 				return (T)propList[propertyName];
 			propList.Add(propertyName, default(T));
 			return default;
+		}
+
+		/// <summary>
+		/// A method for property getter
+		/// </summary>
+		/// <typeparam name="T">Property type</typeparam>
+		/// <param name="defaultValue">Default value set</param>
+		/// <param name="propertyName">Property name</param>
+		/// <returns>Property value</returns>
+		/// <exception cref="InvalidOperationException"/>
+		protected T GetProperty<T>(T defaultValue, [CallerMemberName]string propertyName = default)
+		{
+			if (propertyName == default)
+				throw new InvalidOperationException();
+			if (propList.ContainsKey(propertyName))
+				return (T)propList[propertyName];
+			propList.Add(propertyName, defaultValue);
+			return defaultValue;
 		}
 
 		/// <summary>

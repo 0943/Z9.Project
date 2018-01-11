@@ -365,6 +365,11 @@
             </summary>
             <param name="propertyName">Property name</param>
         </member>
+        <member name="M:Z9.Mvvm.NotificationObject.NotifyAll">
+            <summary>
+            Notify all properties changed(beta)
+            </summary>
+        </member>
         <member name="M:Z9.Mvvm.NotificationObject.Set``1(``0@,``0,System.String)">
             <summary>
             Set property value
@@ -380,6 +385,16 @@
             A method for property getter
             </summary>
             <typeparam name="T">Property type</typeparam>
+            <param name="propertyName">Property name</param>
+            <returns>Property value</returns>
+            <exception cref="T:System.InvalidOperationException"/>
+        </member>
+        <member name="M:Z9.Mvvm.NotificationObject.GetProperty``1(``0,System.String)">
+            <summary>
+            A method for property getter
+            </summary>
+            <typeparam name="T">Property type</typeparam>
+            <param name="defaultValue">Default value set</param>
             <param name="propertyName">Property name</param>
             <returns>Property value</returns>
             <exception cref="T:System.InvalidOperationException"/>
