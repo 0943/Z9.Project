@@ -49,5 +49,14 @@
             <exception cref="T:System.InvalidOperationException">Target type isn't the same with registered type</exception>
             <exception cref="T:System.MissingMethodException">Target type don't have none parameter constructor</exception>
         </member>
+        <member name="M:Z9.Ioc.SimpleIoc.GetInstance(System.Type)">
+            <summary>
+            Get instance with target type
+            </summary>
+            <param name="type">instance type</param>
+            <returns>instance</returns>
+            <exception cref="T:System.InvalidOperationException">Target type not be registered before</exception>
+            <exception cref="T:System.MissingMethodException">Target type don't have none parameter constructor</exception>
+        </member>
     </members>
 </doc>
