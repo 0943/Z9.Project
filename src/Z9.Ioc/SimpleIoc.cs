@@ -28,7 +28,6 @@ namespace Z9.Ioc
 		}
 
 		Dictionary<Type, WeakReference> singletonList = new Dictionary<Type, WeakReference>();
-		Dictionary<string, Tuple<Type, WeakReference>> kInstanceList = new Dictionary<string, Tuple<Type, WeakReference>>();
 
 		/// <summary>
 		/// Register type
@@ -36,28 +35,18 @@ namespace Z9.Ioc
 		/// <typeparam name="TInstance">class type</typeparam>
 		public void Register<TInstance>() where TInstance : class
 		{
-			try
-			{
-				singletonList.Add(typeof(TInstance), new WeakReference(null));
-			}
-			catch { }
+			Register(typeof(TInstance));
 		}
 
 		/// <summary>
-		/// Register type with identifier
+		/// Register type
 		/// </summary>
-		/// <typeparam name="TInstance">class type</typeparam>
-		/// <param name="key">identifier</param>
-		/// <exception cref="ArgumentNullException">Key is null</exception>
-		public void Register<TInstance>(string key) where TInstance : class
+		/// <param name="type">class type</param>
+		public void Register(Type type)
 		{
 			try
 			{
-				kInstanceList.Add(key, Tuple.Create(typeof(TInstance), new WeakReference(null)));
-			}
-			catch (ArgumentNullException)
-			{
-				throw new ArgumentNullException("Key must not be null");
+				singletonList.Add(type, new WeakReference(null));
 			}
 			catch { }
 		}
@@ -76,52 +65,6 @@ namespace Z9.Ioc
 				return (TInstance)GetInstance(typeof(TInstance));
 			}
 			catch { throw; }
-		}
-
-		/// <summary>
-		/// Get instance with target type and key
-		/// </summary>
-		/// <typeparam name="TInstance">instance type</typeparam>
-		/// <param name="key">identifier</param>
-		/// <returns>instance</returns>
-		/// <exception cref="ArgumentException">Target key not be registered before or key is null</exception>
-		/// <exception cref="InvalidOperationException">Target type isn't the same with registered type</exception>
-		/// <exception cref="MissingMethodException">Target type don't have none parameter constructor</exception>
-		public TInstance GetInstance<TInstance>(string key) where TInstance : class
-		{
-			Tuple<Type, WeakReference> kInstance;
-			try
-			{
-				kInstance = kInstanceList[key];
-			}
-			catch
-			{
-				throw new ArgumentException($"Key is null or there's no \"{key}\" yet");
-			}
-
-			var weakR = kInstance.Item2;
-			try
-			{
-				if (weakR.IsAlive)
-					return (TInstance)weakR.Target;
-			}
-			catch
-			{
-				throw new InvalidOperationException("Target type isn't the same with registered type");
-			}
-
-			TInstance ins = default;
-			try
-			{
-				ins = Activator.CreateInstance<TInstance>();
-			}
-			catch (MissingMethodException ex)
-			{
-				throw new MissingMethodException($"Create \"{typeof(TInstance).FullName}\" fail (\"{key}\")", ex);
-			}
-
-			weakR.Target = ins;
-			return ins;
 		}
 
 		/// <summary>

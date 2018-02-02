@@ -21,13 +21,11 @@
             </summary>
             <typeparam name="TInstance">class type</typeparam>
         </member>
-        <member name="M:Z9.Ioc.SimpleIoc.Register``1(System.String)">
+        <member name="M:Z9.Ioc.SimpleIoc.Register(System.Type)">
             <summary>
-            Register type with identifier
+            Register type
             </summary>
-            <typeparam name="TInstance">class type</typeparam>
-            <param name="key">identifier</param>
-            <exception cref="T:System.ArgumentNullException">Key is null</exception>
+            <param name="type">class type</param>
         </member>
         <member name="M:Z9.Ioc.SimpleIoc.GetInstance``1">
             <summary>
@@ -36,17 +34,6 @@
             <typeparam name="TInstance">instance type</typeparam>
             <returns>instance</returns>
             <exception cref="T:System.InvalidOperationException">Target type not be registered before</exception>
-            <exception cref="T:System.MissingMethodException">Target type don't have none parameter constructor</exception>
-        </member>
-        <member name="M:Z9.Ioc.SimpleIoc.GetInstance``1(System.String)">
-            <summary>
-            Get instance with target type and key
-            </summary>
-            <typeparam name="TInstance">instance type</typeparam>
-            <param name="key">identifier</param>
-            <returns>instance</returns>
-            <exception cref="T:System.ArgumentException">Target key not be registered before or key is null</exception>
-            <exception cref="T:System.InvalidOperationException">Target type isn't the same with registered type</exception>
             <exception cref="T:System.MissingMethodException">Target type don't have none parameter constructor</exception>
         </member>
         <member name="M:Z9.Ioc.SimpleIoc.GetInstance(System.Type)">
