@@ -71,31 +71,11 @@ namespace Z9.Ioc
 		/// <exception cref="MissingMethodException">Target type don't have none parameter constructor</exception>
 		public TInstance GetInstance<TInstance>() where TInstance : class
 		{
-			WeakReference weakR;
 			try
 			{
-				weakR = singletonList[typeof(TInstance)];
+				return (TInstance)GetInstance(typeof(TInstance));
 			}
-			catch
-			{
-				throw new InvalidOperationException($"Type \"{typeof(TInstance).FullName}\" not exist");
-			}
-
-			if (weakR.IsAlive)
-				return (TInstance)weakR.Target;
-
-			TInstance ins = default;
-			try
-			{
-				ins = Activator.CreateInstance<TInstance>();
-			}
-			catch(MissingMethodException ex)
-			{
-				throw new MissingMethodException($"Create \"{typeof(TInstance).FullName}\" fail", ex);
-			}
-
-			weakR.Target = ins;
-			return ins;
+			catch { throw; }
 		}
 
 		/// <summary>
@@ -135,10 +115,43 @@ namespace Z9.Ioc
 			{
 				ins = Activator.CreateInstance<TInstance>();
 			}
-			catch(MissingMethodException ex)
+			catch (MissingMethodException ex)
 			{
 				throw new MissingMethodException($"Create \"{typeof(TInstance).FullName}\" fail (\"{key}\")", ex);
 			}
+
+			weakR.Target = ins;
+			return ins;
+		}
+
+		/// <summary>
+		/// Get instance with target type
+		/// </summary>
+		/// <param name="type">instance type</param>
+		/// <returns>instance</returns>
+		/// <exception cref="InvalidOperationException">Target type not be registered before</exception>
+		/// <exception cref="MissingMethodException">Target type don't have none parameter constructor</exception>
+		public object GetInstance(Type type)
+		{
+			WeakReference weakR;
+			try
+			{
+				weakR = singletonList[type];
+			}
+			catch
+			{
+				throw new InvalidOperationException($"Type \"{type.FullName}\" not exist");
+			}
+
+			if (weakR.IsAlive)
+				return weakR.Target;
+
+			object ins = default;
+			try
+			{
+				ins = Activator.CreateInstance(type);
+			}
+			catch { throw; }
 
 			weakR.Target = ins;
 			return ins;
