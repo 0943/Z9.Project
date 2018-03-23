@@ -27,157 +27,88 @@ namespace Z9.Mvvm.Messaging
 			}
 		}
 
-		Dictionary<Type, List<Tuple<Delegate, Type, object>>> actList = new Dictionary<Type, List<Tuple<Delegate, Type, object>>>();
-
-		/// <summary>
-		/// Send message
-		/// </summary>
-		/// <typeparam name="T">Message type</typeparam>
-		/// <param name="msg">Message</param>
-		/// <exception cref="MemberAccessException"/>
-		/// <exception cref="ArgumentException"/>
-		/// <exception cref="TargetInvocationException"/>
-		public void Send<T>(T msg)
-		{
-			if (msg == null)
-				throw new ArgumentNullException("Message must not be null");
-
-			foreach (var act in actList)
-				foreach (var del in act.Value)
-					if (del.Item3 == null && del.Item2.Equals(typeof(T)))
-						try { del.Item1?.DynamicInvoke(msg); }
-						catch { throw; }
-		}
-
-		/// <summary>
-		/// Send message to target type. Indicate target type can get better performance.
-		/// </summary>
-		/// <typeparam name="TMessage">Message type</typeparam>
-		/// <typeparam name="TTarget">Target type</typeparam>
-		/// <param name="msg">Message</param>
-		public void Send<TMessage, TTarget>(TMessage msg) where TTarget : class
-		{
-			if (msg == null)
-				throw new ArgumentNullException("Message must not be null");
-
-			foreach (var recipient in actList)
-			{
-				if (recipient.Key.Equals(typeof(TTarget)))
-				{
-					foreach (var del in recipient.Value)
-						if (del.Item3 == null && del.Item2.Equals(typeof(TMessage)))
-							try { del.Item1?.DynamicInvoke(msg); }
-							catch { throw; }
-					break;
-				}
-			}
-		}
-
-		/// <summary>
-		/// Send message with token
-		/// </summary>
-		/// <typeparam name="T">Message type</typeparam>
-		/// <param name="msg">Message</param>
-		/// <param name="token">Message token</param>
-		/// <exception cref="MemberAccessException"/>
-		/// <exception cref="ArgumentException"/>
-		/// <exception cref="TargetInvocationException"/>
-		public void Send<T>(T msg, object token)
-		{
-			if (token == null)
-				throw new ArgumentNullException("Message token must not be null");
-			if (msg == null)
-				throw new ArgumentNullException("Message must not be null");
-
-			foreach (var act in actList)
-				foreach (var del in act.Value)
-					if (Equals(del.Item3, token) && del.Item2.Equals(typeof(T)))
-						try { del.Item1?.DynamicInvoke(msg); }
-						catch { throw; }
-		}
-
-		/// <summary>
-		/// Send message to target type with token. Indicate target type can get better performance.
-		/// </summary>
-		/// <typeparam name="TMessage">Message type</typeparam>
-		/// <typeparam name="TTarget">Target type</typeparam>
-		/// <param name="msg">Message</param>
-		/// <param name="token">Messaget token</param>
-		public void Send<TMessage, TTarget>(TMessage msg, object token)
-		{
-			if (token == null)
-				throw new ArgumentNullException("Message token must not be null");
-			if (msg == null)
-				throw new ArgumentNullException("Message must not be null");
-
-			foreach (var recipient in actList)
-			{
-				if (recipient.Key.Equals(typeof(TTarget)))
-				{
-					foreach (var del in recipient.Value)
-						if (Equals(del.Item3, token) && del.Item2.Equals(typeof(TMessage)))
-							try { del.Item1?.DynamicInvoke(msg); }
-							catch { throw; }
-					break;
-				}
-			}
-		}
+		Dictionary<Type, Dictionary<object, List<Tuple<Delegate, object>>>> msgPool = new Dictionary<Type, Dictionary<object, List<Tuple<Delegate, object>>>>();
 
 		/// <summary>
 		/// Register the message
 		/// </summary>
-		/// <typeparam name="T">Message type</typeparam>
-		/// <param name="reciepient">Message receiver</param>
-		/// <param name="opt">Delegate</param>
+		/// <typeparam name="TMsg">Message type</typeparam>
+		/// <param name="reciepient">Message reciepient</param>
+		/// <param name="action">Delegate method</param>
 		/// <exception cref="ArgumentNullException">Reciepient is null</exception>
-		public void Register<T>(object reciepient, Action<T> opt)
+		public void Register<TMsg>(object reciepient, Action<TMsg> action)
 		{
-			try { Register(reciepient, opt, null); }
+			try { Register(reciepient, null, action); }
 			catch { throw; }
 		}
 
 		/// <summary>
 		/// Register the message with token
 		/// </summary>
-		/// <typeparam name="T">Message type</typeparam>
-		/// <param name="reciepient">Message receiver</param>
+		/// <typeparam name="TMsg">Message type</typeparam>
+		/// <param name="reciepient">Message reciepient</param>
 		/// <param name="token">Message token</param>
-		/// <param name="opt">Delegate</param>
+		/// <param name="action">Delegate method</param>
 		/// <exception cref="ArgumentNullException">Reciepient is null</exception>
-		/// <exception cref="ArgumentNullException">Token is null</exception>
-		public void Register<T>(object reciepient, object token, Action<T> opt)
+		public void Register<TMsg>(object reciepient, object token, Action<TMsg> action)
 		{
-			if (token == null)
-				throw new ArgumentNullException("Message token must not be null");
-			try { Register(reciepient, opt, token); }
-			catch { throw; }
+			if (reciepient == null)
+				throw new ArgumentNullException("Reciepient can't be null");
+
+			var msgType = typeof(TMsg);
+			if (!msgPool.ContainsKey(msgType))
+				msgPool.Add(msgType, new Dictionary<object, List<Tuple<Delegate, object>>>());
+			if (!msgPool[msgType].ContainsKey(reciepient))
+				msgPool[msgType].Add(reciepient, new List<Tuple<Delegate, object>>());
+			msgPool[msgType][reciepient].Add(Tuple.Create<Delegate, object>(action, token));
 		}
 
 		/// <summary>
-		/// Unregister all message for target receiver
+		/// Send message
 		/// </summary>
-		/// <param name="reciepient">receiver</param>
-		/// <exception cref="ArgumentNullException">Reciepient is null</exception>
-		public void Unregister(object reciepient)
+		/// <typeparam name="TMsg">Message type</typeparam>
+		/// <param name="msg">Message</param>
+		public void Send<TMsg>(TMsg msg) => Send(msg, null);
+
+		/// <summary>
+		/// Send message with token
+		/// </summary>
+		/// <typeparam name="TMsg">Message type</typeparam>
+		/// <param name="msg">Message</param>
+		/// <param name="token">Message Token</param>
+		public void Send<TMsg>(TMsg msg, object token)
 		{
-			try
-			{
-				var t = reciepient.GetType();
-				actList.Remove(t);
-			}
-			catch { throw; }
+			if (msg == null)
+				return;
+
+			if (!msgPool.ContainsKey(typeof(TMsg)))
+				return;
+			Dictionary<object, List<Tuple<Delegate, object>>> targetMsg = msgPool[typeof(TMsg)];
+
+			foreach (var reciepient in targetMsg)
+				foreach (var del in reciepient.Value)
+					if (Equals(del.Item2, token))
+						del.Item1?.DynamicInvoke(msg);
 		}
 
-		void Register<T>(object reciepient, Action<T> opt, object token)
+		/// <summary>
+		/// Unregister all message for target reciepient
+		/// </summary>
+		/// <param name="reciepient">reciepient</param>
+		public void Unregister(object reciepient)
 		{
 			if (reciepient == null)
-				throw new ArgumentNullException("Reciepient must not be null");
+				return;
+			foreach (var msgType in msgPool)
+				if (msgType.Value.ContainsKey(reciepient))
+					msgType.Value.Remove(reciepient);   // Confilict
 
-			var t = reciepient.GetType();
-			if (!actList.ContainsKey(t))
-				actList.Add(t, new List<Tuple<Delegate, Type, object>>());
-
-			actList[t].Add(Tuple.Create<Delegate, Type, object>(opt, typeof(T), token));
+			var delLst = new List<Type>();
+			foreach (var msgType in msgPool)
+				if (msgType.Value.Count == 0)
+					delLst.Add(msgType.Key);
+			foreach (var delItem in delLst)
+				msgPool.Remove(delItem);
 		}
 
 		Messenger() { }

@@ -26,6 +26,8 @@
             Register type
             </summary>
             <param name="type">class type</param>
+            <exception cref="T:System.ArgumentNullException">Argument is null</exception>
+            <exception cref="T:System.ArgumentException">Argument is value type</exception>
         </member>
         <member name="M:Z9.Ioc.SimpleIoc.GetInstance``1">
             <summary>
@@ -44,6 +46,8 @@
             <returns>instance</returns>
             <exception cref="T:System.InvalidOperationException">Target type not be registered before</exception>
             <exception cref="T:System.MissingMethodException">Target type don't have none parameter constructor</exception>
+            <exception cref="T:System.ArgumentNullException">Argument is null</exception>
+            <exception cref="T:System.ArgumentException">Argument is value type</exception>
         </member>
     </members>
 </doc>

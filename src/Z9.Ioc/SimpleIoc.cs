@@ -33,17 +33,21 @@ namespace Z9.Ioc
 		/// Register type
 		/// </summary>
 		/// <typeparam name="TInstance">class type</typeparam>
-		public void Register<TInstance>() where TInstance : class
-		{
-			Register(typeof(TInstance));
-		}
+		public void Register<TInstance>() where TInstance : class => Register(typeof(TInstance));
 
 		/// <summary>
 		/// Register type
 		/// </summary>
 		/// <param name="type">class type</param>
+		/// <exception cref="ArgumentNullException">Argument is null</exception>
+		/// <exception cref="ArgumentException">Argument is value type</exception>
 		public void Register(Type type)
 		{
+			if (type == null)
+				throw new ArgumentNullException("Argument can't be null");
+			if (type.IsValueType)
+				throw new ArgumentException("Argument can't be value type");
+
 			try
 			{
 				singletonList.Add(type, new WeakReference(null));
@@ -74,8 +78,15 @@ namespace Z9.Ioc
 		/// <returns>instance</returns>
 		/// <exception cref="InvalidOperationException">Target type not be registered before</exception>
 		/// <exception cref="MissingMethodException">Target type don't have none parameter constructor</exception>
+		/// <exception cref="ArgumentNullException">Argument is null</exception>
+		/// <exception cref="ArgumentException">Argument is value type</exception>
 		public object GetInstance(Type type)
 		{
+			if (type == null)
+				throw new ArgumentNullException("Argument can't be null");
+			if (type.IsValueType)
+				throw new ArgumentException("Argument can't be value type");
+
 			WeakReference weakR;
 			try
 			{

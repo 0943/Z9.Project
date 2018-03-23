@@ -274,70 +274,45 @@
             Messenger instance
             </summary>
         </member>
-        <member name="M:Z9.Mvvm.Messaging.Messenger.Send``1(``0)">
-            <summary>
-            Send message
-            </summary>
-            <typeparam name="T">Message type</typeparam>
-            <param name="msg">Message</param>
-            <exception cref="T:System.MemberAccessException"/>
-            <exception cref="T:System.ArgumentException"/>
-            <exception cref="T:System.Reflection.TargetInvocationException"/>
-        </member>
-        <member name="M:Z9.Mvvm.Messaging.Messenger.Send``2(``0)">
-            <summary>
-            Send message to target type. Indicate target type can get better performance.
-            </summary>
-            <typeparam name="TMessage">Message type</typeparam>
-            <typeparam name="TTarget">Target type</typeparam>
-            <param name="msg">Message</param>
-        </member>
-        <member name="M:Z9.Mvvm.Messaging.Messenger.Send``1(``0,System.Object)">
-            <summary>
-            Send message with token
-            </summary>
-            <typeparam name="T">Message type</typeparam>
-            <param name="msg">Message</param>
-            <param name="token">Message token</param>
-            <exception cref="T:System.MemberAccessException"/>
-            <exception cref="T:System.ArgumentException"/>
-            <exception cref="T:System.Reflection.TargetInvocationException"/>
-        </member>
-        <member name="M:Z9.Mvvm.Messaging.Messenger.Send``2(``0,System.Object)">
-            <summary>
-            Send message to target type with token. Indicate target type can get better performance.
-            </summary>
-            <typeparam name="TMessage">Message type</typeparam>
-            <typeparam name="TTarget">Target type</typeparam>
-            <param name="msg">Message</param>
-            <param name="token">Messaget token</param>
-        </member>
         <member name="M:Z9.Mvvm.Messaging.Messenger.Register``1(System.Object,System.Action{``0})">
             <summary>
             Register the message
             </summary>
-            <typeparam name="T">Message type</typeparam>
-            <param name="reciepient">Message receiver</param>
-            <param name="opt">Delegate</param>
+            <typeparam name="TMsg">Message type</typeparam>
+            <param name="reciepient">Message reciepient</param>
+            <param name="action">Delegate method</param>
             <exception cref="T:System.ArgumentNullException">Reciepient is null</exception>
         </member>
         <member name="M:Z9.Mvvm.Messaging.Messenger.Register``1(System.Object,System.Object,System.Action{``0})">
             <summary>
             Register the message with token
             </summary>
-            <typeparam name="T">Message type</typeparam>
-            <param name="reciepient">Message receiver</param>
+            <typeparam name="TMsg">Message type</typeparam>
+            <param name="reciepient">Message reciepient</param>
             <param name="token">Message token</param>
-            <param name="opt">Delegate</param>
+            <param name="action">Delegate method</param>
             <exception cref="T:System.ArgumentNullException">Reciepient is null</exception>
-            <exception cref="T:System.ArgumentNullException">Token is null</exception>
+        </member>
+        <member name="M:Z9.Mvvm.Messaging.Messenger.Send``1(``0)">
+            <summary>
+            Send message
+            </summary>
+            <typeparam name="TMsg">Message type</typeparam>
+            <param name="msg">Message</param>
+        </member>
+        <member name="M:Z9.Mvvm.Messaging.Messenger.Send``1(``0,System.Object)">
+            <summary>
+            Send message with token
+            </summary>
+            <typeparam name="TMsg">Message type</typeparam>
+            <param name="msg">Message</param>
+            <param name="token">Message Token</param>
         </member>
         <member name="M:Z9.Mvvm.Messaging.Messenger.Unregister(System.Object)">
             <summary>
-            Unregister all message for target receiver
+            Unregister all message for target reciepient
             </summary>
-            <param name="reciepient">receiver</param>
-            <exception cref="T:System.ArgumentNullException">Reciepient is null</exception>
+            <param name="reciepient">reciepient</param>
         </member>
         <member name="T:Z9.Mvvm.NotificationObject">
             <summary>
@@ -367,7 +342,7 @@
         </member>
         <member name="M:Z9.Mvvm.NotificationObject.NotifyAll">
             <summary>
-            Notify all properties changed(beta)
+            Notify all properties changed (beta)
             </summary>
         </member>
         <member name="M:Z9.Mvvm.NotificationObject.Set``1(``0@,``0,System.String)">
