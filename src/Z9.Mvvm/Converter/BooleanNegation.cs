@@ -2,12 +2,14 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace Z9.Mvvm.Converter
 {
 	/// <summary>
 	/// Inverse the bool value
 	/// </summary>
+	[MarkupExtensionReturnType(typeof(BooleanNegation))]
 	public class BooleanNegation : ConverterBase
 	{
 		/// <summary>

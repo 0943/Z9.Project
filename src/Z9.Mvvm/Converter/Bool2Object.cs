@@ -8,7 +8,7 @@ namespace Z9.Mvvm.Converter
 	/// <summary>
 	/// Converts the input Boolean, nullable Boolean or DefaultBoolean value to a value of any type
 	/// </summary>
-	public sealed class Bool2Object
+	public sealed class Bool2Object : IValueConverter
 	{
 		/// <summary>
 		/// true value
@@ -47,7 +47,7 @@ namespace Z9.Mvvm.Converter
 				var propSource2 = (bool?)value;
 				return NullValue;
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Debug.WriteLine($"Converter exception: {ex.Message} Converter [{GetType()}], value type [{value?.GetType().FullName}]");
 				return Binding.DoNothing;
