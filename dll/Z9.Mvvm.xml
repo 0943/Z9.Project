@@ -152,7 +152,7 @@
             <summary>
             Convert from target value type to source type
             </summary>
-            <param name="value">source value</param>
+            <param name="value">target value</param>
             <param name="targetType">target type</param>
             <param name="parameter">parameter</param>
             <param name="culture">culture info</param>
@@ -175,13 +175,45 @@
         </member>
         <member name="M:Z9.Mvvm.Converter.BooleanNegation.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
             <summary>
-            This converter not allowed to convert back
+            Inverse the bool value to source
+            </summary>
+            <param name="value">target value</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">parameter</param>
+            <param name="culture">culture info</param>
+            <returns>source value</returns>
+        </member>
+        <member name="T:Z9.Mvvm.Converter.ConverterBase">
+            <summary>
+            Base converter for supporting create instance in xaml.
+            </summary>
+        </member>
+        <member name="M:Z9.Mvvm.Converter.ConverterBase.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Convert from source value type to target type
             </summary>
             <param name="value">source value</param>
             <param name="targetType">target type</param>
             <param name="parameter">parameter</param>
             <param name="culture">culture info</param>
+            <returns>target value</returns>
+        </member>
+        <member name="M:Z9.Mvvm.Converter.ConverterBase.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Convert from target value type to source type
+            </summary>
+            <param name="value">target value</param>
+            <param name="targetType">target type</param>
+            <param name="parameter">parameter</param>
+            <param name="culture">culture info</param>
             <returns>source value</returns>
+        </member>
+        <member name="M:Z9.Mvvm.Converter.ConverterBase.ProvideValue(System.IServiceProvider)">
+            <summary>
+            Instance of markcup object, default is 'this'
+            </summary>
+            <param name="serviceProvider">Service provider</param>
+            <returns>Markcup object value</returns>
         </member>
         <member name="T:Z9.Mvvm.Converter.Func2Object">
             <summary>
@@ -210,9 +242,9 @@
         </member>
         <member name="M:Z9.Mvvm.Converter.Func2Object.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
             <summary>
-            This converter not allowed to convert back
+            Invoke the back func
             </summary>
-            <param name="value">source value</param>
+            <param name="value">target value</param>
             <param name="targetType">target type</param>
             <param name="parameter">parameter</param>
             <param name="culture">culture info</param>
@@ -342,7 +374,7 @@
         </member>
         <member name="M:Z9.Mvvm.NotificationObject.NotifyAll">
             <summary>
-            Notify all properties changed (beta)
+            Notify all properties changed(beta)
             </summary>
         </member>
         <member name="M:Z9.Mvvm.NotificationObject.Set``1(``0@,``0,System.String)">

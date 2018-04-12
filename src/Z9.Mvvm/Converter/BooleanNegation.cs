@@ -8,7 +8,7 @@ namespace Z9.Mvvm.Converter
 	/// <summary>
 	/// Inverse the bool value
 	/// </summary>
-	public class BooleanNegation : IValueConverter
+	public class BooleanNegation : ConverterBase
 	{
 		/// <summary>
 		/// Inverse the bool value
@@ -18,7 +18,7 @@ namespace Z9.Mvvm.Converter
 		/// <param name="parameter">parameter</param>
 		/// <param name="culture">culture info</param>
 		/// <returns>target value</returns>
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if(value is bool propSource)
 			{
@@ -33,14 +33,14 @@ namespace Z9.Mvvm.Converter
 		}
 
 		/// <summary>
-		/// This converter not allowed to convert back
+		/// Inverse the bool value to source
 		/// </summary>
-		/// <param name="value">source value</param>
+		/// <param name="value">target value</param>
 		/// <param name="targetType">target type</param>
 		/// <param name="parameter">parameter</param>
 		/// <param name="culture">culture info</param>
 		/// <returns>source value</returns>
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if(value is bool propTarget)
 			{

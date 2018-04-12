@@ -3,13 +3,15 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace Z9.Mvvm.Converter
 {
 	/// <summary>
 	/// An extended version of the standard converter that maps Boolean values to the values of the Visibility type and vice versa
 	/// </summary>
-	public sealed class Bool2Visibility : IValueConverter
+	[MarkupExtensionReturnType(typeof(Bool2Visibility))]
+	public sealed class Bool2Visibility : ConverterBase
 	{
 		/// <summary>
 		/// Use Hidden rather than Collapsed
@@ -29,7 +31,7 @@ namespace Z9.Mvvm.Converter
 		/// <param name="parameter">parameter</param>
 		/// <param name="culture">culture info</param>
 		/// <returns>target value</returns>
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (!bool.TryParse(value?.ToString(), out bool propSource))
 			{
@@ -65,12 +67,12 @@ namespace Z9.Mvvm.Converter
 		/// <summary>
 		/// Convert from target value type to source type
 		/// </summary>
-		/// <param name="value">source value</param>
+		/// <param name="value">target value</param>
 		/// <param name="targetType">target type</param>
 		/// <param name="parameter">parameter</param>
 		/// <param name="culture">culture info</param>
 		/// <returns>source value</returns>
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if(!(value is Visibility visible))
 			{

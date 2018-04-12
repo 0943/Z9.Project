@@ -8,7 +8,7 @@ namespace Z9.Mvvm.Converter
 	/// <summary>
 	/// Converts the input Boolean, nullable Boolean or DefaultBoolean value to a value of any type
 	/// </summary>
-	public sealed class Bool2Object : IValueConverter
+	public sealed class Bool2Object
 	{
 		/// <summary>
 		/// true value

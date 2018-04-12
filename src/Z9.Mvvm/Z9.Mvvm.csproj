@@ -49,6 +49,7 @@
     <Compile Include="Converter\Bool2Object.cs" />
     <Compile Include="Converter\Bool2Visibility.cs" />
     <Compile Include="Converter\BooleanNegation.cs" />
+    <Compile Include="Converter\ConverterBase.cs" />
     <Compile Include="Converter\Func2Object.cs" />
     <Compile Include="Messaging\MessageWithCallBack.cs" />
     <Compile Include="Messaging\Messenger.cs" />
@@ -61,6 +62,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup />

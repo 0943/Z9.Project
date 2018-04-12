@@ -42,9 +42,9 @@ namespace Z9.Mvvm.Converter
 		}
 
 		/// <summary>
-		/// This converter not allowed to convert back
+		/// Invoke the back func
 		/// </summary>
-		/// <param name="value">source value</param>
+		/// <param name="value">target value</param>
 		/// <param name="targetType">target type</param>
 		/// <param name="parameter">parameter</param>
 		/// <param name="culture">culture info</param>
