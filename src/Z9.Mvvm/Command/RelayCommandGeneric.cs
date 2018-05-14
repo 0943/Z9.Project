@@ -27,12 +27,12 @@ namespace Z9.Mvvm.Command
 		/// </summary>
 		/// <param name="parameter">Para</param>
 		/// <returns>Whether executable</returns>
-		public override bool CanExecute(object parameter) => CanExcuteFunc == null ? true : CanExcuteFunc((T)parameter);
+		public override bool CanExecute(object parameter) => CanExcuteFunc == null ? true : CanExcuteFunc((T)Convert.ChangeType(parameter,typeof(T)));
 
 		/// <summary>
 		/// Define a method to be called when command is triggered
 		/// </summary>
 		/// <param name="parameter">Para</param>
-		public override void Execute(object parameter) => ExcuteAction?.Invoke((T)parameter);
+		public override void Execute(object parameter) => ExcuteAction?.Invoke((T)Convert.ChangeType(parameter, typeof(T)));
 	}
 }
