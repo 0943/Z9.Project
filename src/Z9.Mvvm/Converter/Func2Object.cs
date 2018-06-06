@@ -2,12 +2,14 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace Z9.Mvvm.Converter
 {
 	/// <summary>
 	/// Use delegate to create a converter, no more IValueConverter implement manually.
 	/// </summary>
+	[MarkupExtensionReturnType(typeof(Func2Object))]
 	public class Func2Object : IValueConverter
 	{
 		/// <summary>

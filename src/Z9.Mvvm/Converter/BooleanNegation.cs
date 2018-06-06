@@ -9,7 +9,7 @@ namespace Z9.Mvvm.Converter
 	/// <summary>
 	/// Inverse the bool value
 	/// </summary>
-	[MarkupExtensionReturnType(typeof(bool))]
+	[MarkupExtensionReturnType(typeof(BooleanNegation))]
 	public class BooleanNegation : ConverterBase
 	{
 		/// <summary>

@@ -10,7 +10,7 @@ namespace Z9.Mvvm.Converter
 	/// <summary>
 	/// An extended version of the standard converter that maps Boolean values to the values of the Visibility type and vice versa
 	/// </summary>
-	[MarkupExtensionReturnType(typeof(bool))]
+	[MarkupExtensionReturnType(typeof(Bool2Visibility))]
 	public sealed class Bool2Visibility : ConverterBase
 	{
 		/// <summary>

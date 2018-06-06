@@ -2,12 +2,14 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace Z9.Mvvm.Converter
 {
 	/// <summary>
 	/// Converts the input Boolean, nullable Boolean or DefaultBoolean value to a value of any type
 	/// </summary>
+	[MarkupExtensionReturnType(typeof(Bool2Object))]
 	public sealed class Bool2Object : IValueConverter
 	{
 		/// <summary>
