@@ -39,7 +39,7 @@ namespace Z9.Mvvm
 		/// Notify property changed
 		/// </summary>
 		/// <param name="propertyName">Property name</param>
-		public void OnPropertyChanged([CallerMemberName]string propertyName = default) => Application.Current?.Dispatcher.Invoke(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)), DispatcherPriority.Send);
+		public void OnPropertyChanged([CallerMemberName]string propertyName = default) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
 		/// <summary>
 		/// Notify all properties changed(beta)
@@ -129,7 +129,7 @@ namespace Z9.Mvvm
 		/// User's code
 		/// </summary>
 		protected virtual void OnInitializeInRuntime() { }
-	
+
 		static NotificationObject()
 		{
 			var prop = DesignerProperties.IsInDesignModeProperty;
