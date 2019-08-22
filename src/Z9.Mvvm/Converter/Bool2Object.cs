@@ -10,7 +10,7 @@ namespace Z9.Mvvm.Converter
 	/// Converts the input Boolean, nullable Boolean or DefaultBoolean value to a value of any type
 	/// </summary>
 	[MarkupExtensionReturnType(typeof(Bool2Object))]
-	public sealed class Bool2Object : IValueConverter
+	public sealed class Bool2Object : ConverterBase
 	{
 		/// <summary>
 		/// true value
@@ -35,7 +35,7 @@ namespace Z9.Mvvm.Converter
 		/// <param name="parameter">parameter</param>
 		/// <param name="culture">culture info</param>
 		/// <returns>target value</returns>
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (bool.TryParse(value?.ToString(), out bool propSource))
 			{
@@ -64,7 +64,7 @@ namespace Z9.Mvvm.Converter
 		/// <param name="parameter">parameter</param>
 		/// <param name="culture">culture info</param>
 		/// <returns>source value</returns>
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			Debug.WriteLine($"Converter exception: This converter doesn't support 'ConverBack'. Converter [{GetType()}], value type [{value?.GetType().FullName}]");
 			return Binding.DoNothing;

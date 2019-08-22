@@ -12,7 +12,7 @@ namespace Z9.Mvvm
 	/// </summary>
 	public abstract class NotificationObject : INotifyPropertyChanged
 	{
-		Dictionary<string, object> propList = new Dictionary<string, object>();
+		readonly Dictionary<string, object> propList = new Dictionary<string, object>();
 
 		/// <summary>
 		/// Occurs when property value changed
@@ -70,15 +70,7 @@ namespace Z9.Mvvm
 		/// <param name="propertyName">Property name</param>
 		/// <returns>Property value</returns>
 		/// <exception cref="InvalidOperationException"/>
-		protected T GetProperty<T>([CallerMemberName]string propertyName = default)
-		{
-			if (propertyName == default)
-				throw new InvalidOperationException();
-			if (propList.ContainsKey(propertyName))
-				return (T)propList[propertyName];
-			propList.Add(propertyName, default(T));
-			return default;
-		}
+		protected T GetProperty<T>([CallerMemberName]string propertyName = default) => GetProperty(default(T), propertyName);
 
 		/// <summary>
 		/// A method for property getter
