@@ -84,13 +84,10 @@ public abstract class NotificationObject : INotifyPropertyChanged
             if (fieldValue != null && fieldValue.Equals(fieldList[propertyName]))
                 return;
             fieldList[propertyName] = fieldValue!;
-            RaisePropertyChanged(propertyName);
         }
         else
-        {
             fieldList.Add(propertyName, fieldValue!);
-            RaisePropertyChanged(propertyName);
-        }
+        RaisePropertyChanged(propertyName);
         changedCallback?.Invoke();
     }
 
