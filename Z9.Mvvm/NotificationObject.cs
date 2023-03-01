@@ -63,30 +63,30 @@ public abstract class NotificationObject : INotifyPropertyChanged
     {
         if (propertyName is null)
             throw new ArgumentNullException(nameof(propertyName));
-        if (fieldList.ContainsKey(propertyName))
-            return (T)fieldList[propertyName];
-        fieldList.Add(propertyName, defaultValue!);
+        if (fieldList.TryGetValue(propertyName, out var value))
+            return (T)value;
+        fieldList.Add(propertyName, defaultValue);
         return defaultValue;
     }
 
     /// <summary>
     /// A method for property setter
     /// </summary>
-    /// <param name="fieldValue">Property value</param>
+    /// <param name="newValue">Property value</param>
     /// <param name="propertyName">Property name</param>
     /// <exception cref="ArgumentNullException"/>
-    protected void SetValue(object fieldValue, Action changedCallback = default, [CallerMemberName] string propertyName = default)
+    protected void SetValue(object newValue, Action changedCallback = default, [CallerMemberName] string propertyName = default)
     {
         if (propertyName is null)
             throw new ArgumentNullException(nameof(propertyName));
         if (fieldList.ContainsKey(propertyName))
         {
-            if (fieldValue != null && fieldValue.Equals(fieldList[propertyName]))
+            if (Equals(newValue, fieldList[propertyName]))
                 return;
-            fieldList[propertyName] = fieldValue!;
+            fieldList[propertyName] = newValue;
         }
         else
-            fieldList.Add(propertyName, fieldValue!);
+            fieldList.Add(propertyName, newValue);
         RaisePropertyChanged(propertyName);
         changedCallback?.Invoke();
     }
@@ -101,9 +101,6 @@ public abstract class NotificationObject : INotifyPropertyChanged
     /// </summary>
     protected virtual void OnInitializeInRuntime() { }
 
-    static NotificationObject()
-    {
-        var prop = DesignerProperties.IsInDesignModeProperty;
-        IsInDesignMode = (bool)DependencyPropertyDescriptor.FromProperty(prop, typeof(FrameworkElement)).Metadata.DefaultValue;
-    }
+    static NotificationObject() => 
+        IsInDesignMode = (bool)DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement)).Metadata.DefaultValue;
 }
