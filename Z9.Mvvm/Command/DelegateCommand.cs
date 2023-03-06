@@ -8,7 +8,11 @@ namespace Z9.Mvvm.Command;
 /// </summary>
 public class DelegateCommand : ICommand
 {
-    public event EventHandler CanExecuteChanged;
+    public event EventHandler CanExecuteChanged
+    {
+        add { CommandManager.RequerySuggested += value; }
+        remove { CommandManager.RequerySuggested -= value; }
+    }
     Action excuteAction;
     Func<bool> canExcuteFunc;
 
@@ -45,7 +49,11 @@ public class DelegateCommand : ICommand
 /// <typeparam name="T">CommandParameter Type</typeparam>
 public class DelegateCommand<T> : ICommand
 {
-    public event EventHandler CanExecuteChanged;
+    public event EventHandler CanExecuteChanged
+    {
+        add { CommandManager.RequerySuggested += value; }
+        remove { CommandManager.RequerySuggested -= value; }
+    }
     Action<T> excuteAction;
     Func<T, bool> canExcuteFunc;
 
